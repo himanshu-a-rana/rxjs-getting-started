@@ -1,13 +1,22 @@
-import { Observable } from "rxjs";
+import { Observable, Subscriber } from "rxjs";
 import { allBooks, allReaders } from "./data";
 
 // An observable is not executed until an object subscribes to it.
-function subscribe(subscriber) {
-  for (let book of allBooks) {
+let allBooksObservable$ = new Observable(subscriber => {
+
+  if (document.title !== 'RxBookTracker') {
+    subscriber.error(`Incorrect page title.`);
+  }
+
+  for(let book of allBooks) {
     subscriber.next(book);
   }
-}
 
-let allBooksObservable$ = new Observable(subscribe);
+  setTimeout(() => {
+    subscriber.complete();
+  }, 2000);
+
+  return () => console.log(`Executing teardown code.`);
+});
 
 allBooksObservable$.subscribe(book => console.log(book.title));
