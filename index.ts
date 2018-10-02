@@ -2,7 +2,7 @@ import { Observable, Subscriber } from "rxjs";
 import { allBooks, allReaders } from "./data";
 
 // An observable is not executed until an object subscribes to it.
-let allBooksObservable$ = new Observable(subscriber => {
+let allBooksObservable$ = Observable.create(subscriber => {
 
   if (document.title !== 'RxBookTracker') {
     subscriber.error(`Incorrect page title.`);
