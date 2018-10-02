@@ -123,5 +123,12 @@ let timerSubscription = timer$.subscribe(
   () => console.log(`All done!`)
 );
 
+let timerConsoleSubscription = timer$.subscribe(value =>
+  console.log(`${new Date().toLocaleTimeString()} (${value})`)
+);
+
+timerSubscription.add(timerConsoleSubscription);
+// timerSubscription.remove(timerConsoleSubscription);
+
 fromEvent(button, "click").subscribe(event => timerSubscription.unsubscribe());
 //#endregion
