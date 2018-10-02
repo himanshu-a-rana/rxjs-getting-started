@@ -58,6 +58,11 @@ import { allBooks, allReaders } from "./data";
 //#endregion
 
 //#region Subscribing to Observable with Observer
+
+// When Does Observable Execution Begin?
+// The subscribe method is called
+// Each call to subscribe triggers an independent execution for a particular observer
+
 let books$ = from(allBooks);
 
 // let bookObserver = {
