@@ -103,7 +103,18 @@ import { allBooks, allReaders } from "./data";
 let timesDiv = document.getElementById("times");
 let button = document.getElementById("timerButton");
 
-let timer$ = interval(1000);
+// let timer$ = interval(1000);
+let timer$ = new Observable(subscriber => {
+  let i = 0;
+  let intervalID = setInterval(() => {
+    subscriber.next(i++);
+  }, 1000);
+
+  return () => {
+    console.log(`Executing teardown code.`);
+    clearInterval(intervalID);
+  };
+});
 
 let timerSubscription = timer$.subscribe(
   value =>
