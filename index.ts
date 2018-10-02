@@ -1,4 +1,4 @@
-import { Observable, of, from, fromEvent } from "rxjs";
+import { Observable, of, from, fromEvent, concat } from "rxjs";
 import { allBooks, allReaders } from "./data";
 
 // An observable is not executed until an object subscribes to it.
@@ -21,8 +21,12 @@ import { allBooks, allReaders } from "./data";
 
 // allBooksObservable$.subscribe(book => console.log(book.title));
 
-let source1$ = of('hello', 10, true, allReaders[0].name);
+let source1$ = of("hello", 10, true, allReaders[0].name);
 // source1$.subscribe(value => console.log(value));
 
 let source2$ = from(allBooks);
-source2$.subscribe(book => console.log(book.title));
+// source2$.subscribe(book => console.log(book.title));
+
+let source3$ = concat(source1$, source2$).subscribe(value =>
+  console.log(value)
+);
