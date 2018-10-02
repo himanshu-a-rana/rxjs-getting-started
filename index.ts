@@ -2,6 +2,7 @@ import { Observable, of, from, fromEvent, concat } from "rxjs";
 import { ajax } from "rxjs/ajax";
 import { allBooks, allReaders } from "./data";
 
+// #region Creating Observable
 // An observable is not executed until an object subscribes to it.
 // let allBooksObservable$ = Observable.create(subscriber => {
 
@@ -43,14 +44,27 @@ import { allBooks, allReaders } from "./data";
 //   }
 // });
 
-let button = document.getElementById("readersButton");
-fromEvent(button, "click").subscribe(event => {
-  ajax("/api/readers").subscribe(ajaxResponse => {
-    console.log(ajaxResponse);
-    let readers = ajaxResponse.response;
-    let readerDiv = document.getElementById("readers");
-    for (let reader of readers) {
-      readerDiv.innerHTML += reader.name + "<br>";
-    }
-  });
-});
+// let button = document.getElementById("readersButton");
+// fromEvent(button, "click").subscribe(event => {
+//   ajax("/api/readers").subscribe(ajaxResponse => {
+//     console.log(ajaxResponse);
+//     let readers = ajaxResponse.response;
+//     let readerDiv = document.getElementById("readers");
+//     for (let reader of readers) {
+//       readerDiv.innerHTML += reader.name + "<br>";
+//     }
+//   });
+// });
+//#endregion
+
+//#region Subscribing to Observable with Observer
+let books$ = from(allBooks);
+
+let bookObserver = {
+  next: book => console.log(`Title: ${book.title}`),
+  error: err => console.log(`ERROR: ${err}`),
+  complete: () => console.log(`All done!`)
+};
+
+books$.subscribe(bookObserver);
+//#endregion
