@@ -180,8 +180,10 @@ let timer$ = new Observable(subscriber => {
   };
 });
 
+let cancelTimer$ = fromEvent(button, 'click');
+
 let timerSusbscription = timer$
-  .pipe(take(3))
+  .pipe(takeUntil(cancelTimer$))
   .subscribe(
     value =>
       (timesDiv.innerHTML += `${new Date().toLocaleTimeString()} (${value}) <br>`),
