@@ -100,35 +100,38 @@ import { allBooks, allReaders } from "./data";
 //   );
 // }, 2000);
 
-let timesDiv = document.getElementById("times");
-let button = document.getElementById("timerButton");
+// let timesDiv = document.getElementById("times");
+// let button = document.getElementById("timerButton");
 
 // let timer$ = interval(1000);
-let timer$ = new Observable(subscriber => {
-  let i = 0;
-  let intervalID = setInterval(() => {
-    subscriber.next(i++);
-  }, 1000);
+// let timer$ = new Observable(subscriber => {
+//   let i = 0;
+//   let intervalID = setInterval(() => {
+//     subscriber.next(i++);
+//   }, 1000);
 
-  return () => {
-    console.log(`Executing teardown code.`);
-    clearInterval(intervalID);
-  };
-});
+//   return () => {
+//     console.log(`Executing teardown code.`);
+//     clearInterval(intervalID);
+//   };
+// });
 
-let timerSubscription = timer$.subscribe(
-  value =>
-    (timesDiv.innerHTML += `${new Date().toLocaleTimeString()} (${value}) <br>`),
-  null,
-  () => console.log(`All done!`)
-);
+// let timerSubscription = timer$.subscribe(
+//   value =>
+//     (timesDiv.innerHTML += `${new Date().toLocaleTimeString()} (${value}) <br>`),
+//   null,
+//   () => console.log(`All done!`)
+// );
 
-let timerConsoleSubscription = timer$.subscribe(value =>
-  console.log(`${new Date().toLocaleTimeString()} (${value})`)
-);
+// let timerConsoleSubscription = timer$.subscribe(value =>
+//   console.log(`${new Date().toLocaleTimeString()} (${value})`)
+// );
 
-timerSubscription.add(timerConsoleSubscription);
-// timerSubscription.remove(timerConsoleSubscription);
+// timerSubscription.add(timerConsoleSubscription);
+// // timerSubscription.remove(timerConsoleSubscription);
 
-fromEvent(button, "click").subscribe(event => timerSubscription.unsubscribe());
+// fromEvent(button, "click").subscribe(event => timerSubscription.unsubscribe());
+//#endregion
+
+//#region Using Operators
 //#endregion
