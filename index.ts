@@ -1,4 +1,4 @@
-import { Observable, of, from, fromEvent, concat } from "rxjs";
+import { Observable, of, from, fromEvent, concat, interval } from "rxjs";
 import { ajax } from "rxjs/ajax";
 import { allBooks, allReaders } from "./data";
 
@@ -78,25 +78,39 @@ import { allBooks, allReaders } from "./data";
 //   () => console.log(`All done!`)
 // );
 
-let currentTime$ = new Observable(subscriber => {
-  const timeString = new Date().toLocaleTimeString();
-  subscriber.next(timeString);
-  subscriber.complete();
-});
+// let currentTime$ = new Observable(subscriber => {
+//   const timeString = new Date().toLocaleTimeString();
+//   subscriber.next(timeString);
+//   subscriber.complete();
+// });
 
-currentTime$.subscribe(currentTime =>
-  console.log(`Observer 1: ${currentTime}`)
+// currentTime$.subscribe(currentTime =>
+//   console.log(`Observer 1: ${currentTime}`)
+// );
+
+// setTimeout(() => {
+//   currentTime$.subscribe(currentTime =>
+//     console.log(`Observer 2: ${currentTime}`)
+//   );
+// }, 1000);
+
+// setTimeout(() => {
+//   currentTime$.subscribe(currentTime =>
+//     console.log(`Observer 3: ${currentTime}`)
+//   );
+// }, 2000);
+
+let timesDiv = document.getElementById("times");
+let button = document.getElementById("timerButton");
+
+let timer$ = interval(1000);
+
+let timerSubscription = timer$.subscribe(
+  value =>
+    (timesDiv.innerHTML += `${new Date().toLocaleTimeString()} (${value}) <br>`),
+  null,
+  () => console.log(`All done!`)
 );
 
-setTimeout(() => {
-  currentTime$.subscribe(currentTime =>
-    console.log(`Observer 2: ${currentTime}`)
-  );
-}, 1000);
-
-setTimeout(() => {
-  currentTime$.subscribe(currentTime =>
-    console.log(`Observer 3: ${currentTime}`)
-  );
-}, 2000);
+fromEvent(button, "click").subscribe(event => timerSubscription.unsubscribe());
 //#endregion
