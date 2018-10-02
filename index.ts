@@ -1,6 +1,6 @@
-import { Observable, of, from, fromEvent, concat, interval } from "rxjs";
+import { Observable, of, from, fromEvent, concat, interval, throwError } from "rxjs";
 import { ajax } from "rxjs/ajax";
-import { mergeMap, filter, tap } from "rxjs/operators";
+import { mergeMap, filter, tap, catchError } from "rxjs/operators";
 import { allBooks, allReaders } from "./data";
 
 // #region Creating Observable
@@ -135,11 +135,18 @@ import { allBooks, allReaders } from "./data";
 //#endregion
 
 //#region Using Operators
-ajax("/api/books")
+ajax("/api/errors/500")
   .pipe(
     mergeMap(ajaxResponse => ajaxResponse.response),
     filter(book => book.publicationYear < 1950),
-    tap(oldBook => console.log(`Title: ${oldBook.title}`))
+    tap(oldBook => console.log(`Title: ${oldBook.title}`)),
+    // catchError(err => of({ title: "Corduroy", author: "Don Freeman" }))
+    // catchError((err, caught) => caught)
+    // catchError(err => throw `Something bad happened - ${err.message}`)
+    catchError(err => return throwError(err.message))
   )
-  .subscribe(finalValue => console.log(finalValue));
+  .subscribe(
+    finalValue => console.log(`VALUE: ${finalValue.title}`),
+    error => console.log(`ERROR: ${error}`)
+  );
 //#endregion
