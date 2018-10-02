@@ -180,10 +180,12 @@ let timer$ = new Observable(subscriber => {
   };
 });
 
-let timerSusbscription = timer$.subscribe(
-  value =>
-    (timesDiv.innerHTML += `${new Date().toLocaleTimeString()} (${value}) <br>`),
-  null,
-  () => console.log(`All done!`)
-);
+let timerSusbscription = timer$
+  .pipe(take(3))
+  .subscribe(
+    value =>
+      (timesDiv.innerHTML += `${new Date().toLocaleTimeString()} (${value}) <br>`),
+    null,
+    () => console.log(`All done!`)
+  );
 //#endregion
