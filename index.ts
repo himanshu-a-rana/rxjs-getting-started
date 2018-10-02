@@ -63,7 +63,7 @@ import { allBooks, allReaders } from "./data";
 // The subscribe method is called
 // Each call to subscribe triggers an independent execution for a particular observer
 
-let books$ = from(allBooks);
+// let books$ = from(allBooks);
 
 // let bookObserver = {
 //   next: book => console.log(`Title: ${book.title}`),
@@ -72,9 +72,31 @@ let books$ = from(allBooks);
 // };
 
 // books$.subscribe(bookObserver);
-books$.subscribe(
-  book => console.log(`Author: ${book.author}`),
-  err => console.log(`ERROR: ${err}`),
-  () => console.log(`All done!`)
+// books$.subscribe(
+//   book => console.log(`Author: ${book.author}`),
+//   err => console.log(`ERROR: ${err}`),
+//   () => console.log(`All done!`)
+// );
+
+let currentTime$ = new Observable(subscriber => {
+  const timeString = new Date().toLocaleTimeString();
+  subscriber.next(timeString);
+  subscriber.complete();
+});
+
+currentTime$.subscribe(currentTime =>
+  console.log(`Observer 1: ${currentTime}`)
 );
+
+setTimeout(() => {
+  currentTime$.subscribe(currentTime =>
+    console.log(`Observer 2: ${currentTime}`)
+  );
+}, 1000);
+
+setTimeout(() => {
+  currentTime$.subscribe(currentTime =>
+    console.log(`Observer 3: ${currentTime}`)
+  );
+}, 2000);
 //#endregion
