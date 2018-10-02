@@ -16,3 +16,12 @@ source$
     filter(mappedValue => mappedValue > 5)
   )
   .subscribe(finalValue => console.log(finalValue)); // 6 8 10
+
+// Categories of Operators
+// Transformation
+// Filtering
+// Combination
+// Utility
+// Conditional
+// Aggregate
+// Multicasting
